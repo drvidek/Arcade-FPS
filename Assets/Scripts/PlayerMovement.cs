@@ -2,14 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : CombatAgent
 {
+    [Header("Movement")]
     [SerializeField] private float _moveSpd;
-    [SerializeField] GameObject _bulletPrefab;
-    [SerializeField] private float _timerMax;
-    [SerializeField] Transform _bulletSpawn;
-    [SerializeField] Camera _cam;
-    private float _timer;
+    [SerializeField] PlayerGun _gun;
 
 
     void OnValidate()
@@ -17,21 +14,20 @@ public class PlayerMovement : MonoBehaviour
         Inititialise();
     }
 
-    private void Start()
+    new void Start()
     {
+        base.Start();
         Inititialise();
+    }
+    private void Inititialise()
+    {
+
     }
 
     private void Update()
     {
         Vector3 inputDir = GetInputDir();
         Move(inputDir);
-        Shoot();
-    }
-
-    private void Inititialise()
-    {
-
     }
 
     Vector3 GetInputDir()
@@ -49,24 +45,19 @@ public class PlayerMovement : MonoBehaviour
         transform.position += moveDir;
     }
 
-    private void Shoot()
+    public Vector3 GetDrift()
     {
-        if (_timer <= 0)
-        {
-            Vector3 drift = GetInputDir() * Time.deltaTime * _moveSpd;
-            drift.z = 0;
-            drift.y = 0;
+        Vector3 drift = GetInputDir() * Time.deltaTime * _moveSpd;
+        drift.z = 0;
+        drift.y = 0;
 
-            drift = transform.TransformDirection(drift);
-            
-            Bullet bullet = Instantiate(_bulletPrefab, _bulletSpawn.position, Quaternion.identity).GetComponent<Bullet>();
-            bullet.Initialise(_cam, transform, drift);
+        drift = transform.TransformDirection(drift);
+        return drift;
+    }
 
-            _timer = _timerMax;
-            return;
-        }
-
-        _timer = Mathf.MoveTowards(_timer, 0, Time.deltaTime);
+    protected override void EndOfLife()
+    {
+        throw new System.NotImplementedException();
     }
 
 }
