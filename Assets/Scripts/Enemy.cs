@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3[] _offsets;
     [SerializeField] private AnimationCurve _curve;
     private float _curveDelta;
-    [SerializeField] private float _moveSpd = 5f,_offsetSpd = 0.5f;
+    [SerializeField] private float _moveSpd = 5f, _offsetSpd = 0.5f, _offsetXMod = 0.5f, _offsetYMod = 1f;
     private Vector3 _anchor;
 
     private void Start()
@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
         _anchor = transform.position;
         _curve.postWrapMode = WrapMode.PingPong;
         _curve.preWrapMode = WrapMode.PingPong;
+        _followTarget = GameObject.Find("Player").transform;
     }
 
     private void Update()
@@ -34,8 +35,8 @@ public class Enemy : MonoBehaviour
         foreach (Vector3 set in _offsets)
         {
             Vector3 pos = set;
-            pos.x *= _curve.Evaluate(_curveDelta/2);
-            pos.y *= _curve.Evaluate(_curveDelta);
+            pos.x *= _curve.Evaluate(_curveDelta * _offsetXMod);
+            pos.y *= _curve.Evaluate(_curveDelta * _offsetYMod);
             offset += pos;
         }
         return offset;
