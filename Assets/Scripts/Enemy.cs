@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
 
     float CurveDeltaNormalised()
     {
-        return Mathf.Max(0, _curve.Evaluate(_curveDelta));
+        return Mathf.Max(0, Mathf.Abs(_curve.Evaluate(_curveDelta)));
     }
 
     Vector3 CalculateOffset()
@@ -53,6 +53,9 @@ public class Enemy : MonoBehaviour
             pos.z *= _curve.Evaluate(_curveDelta * _offsetZMod);
             offset += pos;
         }
+        float mag = offset.magnitude;
+        offset = transform.InverseTransformDirection(offset.normalized);
+            offset *= mag;
         return offset;
     }
 
