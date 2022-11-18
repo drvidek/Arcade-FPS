@@ -4,21 +4,6 @@ using UnityEngine;
 
 public class MathExt
 {
-    public static float Approach(float a, float b, float c)
-    {
-        float result;
-
-        if (a > b)
-        {
-            result = Mathf.Max(a - c, b);
-        }
-        else
-        {
-            result = Mathf.Min(a + c, b);
-        }
-        return result;
-    }
-
     public static Vector3 StringToVector3(string sVector)
     {
         // Remove the parentheses
@@ -70,4 +55,12 @@ public class MathExt
         return vector;
     }
 
+    public static Vector3 VectorYToZ(Vector2 vector2)
+    {
+        return new Vector3(vector2.x, 0, vector2.y);
+    }
+    public static Vector2 VectorZToY(Vector3 vector3)
+    {
+        return new Vector2(vector3.x, vector3.z);
+    }
 }

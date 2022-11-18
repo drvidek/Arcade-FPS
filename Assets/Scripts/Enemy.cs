@@ -28,7 +28,6 @@ public class Enemy : MonoBehaviour
 
         Vector3 newDir = MathExt.Direction(transform.position, _followTarget.position);
         newDir = MathExt.FlattenVector3(newDir);
-        Debug.Log(newDir);
         float steering = _turnSpd * (_mapTurnToCurve ? CurveDeltaNormalised() : 1f);
         _dir = Vector3.MoveTowards(_dir, newDir, steering*Time.deltaTime);
         transform.forward = _dir;
