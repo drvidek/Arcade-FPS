@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2413028d8a3d4d34bb17789709e1c06c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9833,6 +9833,7 @@ MonoBehaviour:
   _hitLayer:
     serializedVersion: 2
     m_Bits: 2147483647
+  _model: {fileID: 2290296652435333503}
   _PSysHit: {fileID: 3569982382961547118}
   _PSysTrail: {fileID: 814243094835132769}
 --- !u!96 &4340294813437934634

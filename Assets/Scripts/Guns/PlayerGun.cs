@@ -10,6 +10,7 @@ public class PlayerGun : MasterGun
     [SerializeField] private GunType _baseGun;
     [SerializeField] private GunType _equipGun;
 
+
     [Header("UI")]
     [SerializeField] private Image _chargeBar;
     Color _chargeBarColDefault;
@@ -43,6 +44,7 @@ public class PlayerGun : MasterGun
         _shotCount = newGun.Count;
         _shotDelayMax = newGun.Delay;
         _shotSpread = newGun.Spread;
+        _color = newGun.Colour;
     }
 
     protected override Ray CalculateRay()

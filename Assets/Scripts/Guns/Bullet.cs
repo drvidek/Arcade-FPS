@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private LayerMask _hitLayer;
     private Vector3 _dir;
     private float _radius;
+    [SerializeField] private GameObject _model;
     [SerializeField] private ParticleSystem _PSysHit;
     [SerializeField] private ParticleSystem _PSysTrail;
     private float _killTimer;
@@ -19,7 +20,7 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 
-    public void Initialise(Vector3 direction, Vector3 drift, float speed, float power, float scale, LayerMask mask)
+    public void Initialise(Vector3 direction, Vector3 drift, float speed, float power, float scale, Color color, LayerMask mask)
     {
         _dir = direction + drift;
         _moveSpd = speed;
@@ -28,6 +29,11 @@ public class Bullet : MonoBehaviour
         transform.LookAt(transform.position + direction);
         _radius = GetComponent<SphereCollider>().radius * scale;
         _hitLayer = mask;
+        _model.GetComponent<MeshRenderer>().material.color = color;
+        var psys = _PSysTrail;
+        var psysmain = psys.main;
+        psysmain.startColor = color;
+        _PSysHit = psys;
     }
 
     // Update is called once per frame

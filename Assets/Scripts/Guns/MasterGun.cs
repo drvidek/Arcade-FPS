@@ -21,6 +21,8 @@ public abstract class MasterGun : MonoBehaviour
     [SerializeField] protected float _shotDelayMax = 0.3f;
     [SerializeField] protected float _shotSpread = 0.01f;
     [SerializeField] protected LayerMask _hitMask;
+    [SerializeField] protected Color _color;
+
 
     public PlayerMovement MyPlayer { get { return _owner as PlayerMovement; } }
     //public MasterEnemy Enemy { get { return _owner as MasterEnemy; } }
@@ -52,7 +54,7 @@ public abstract class MasterGun : MonoBehaviour
         Vector3 horScatter = bullet.transform.TransformDirection(Vector3.left) * Random.Range(-_finalSpread, _finalSpread) * (float)(count+1);   //scatter reduced to 0 for a scoped
         Vector3 verScatter = bullet.transform.TransformDirection(Vector3.up) * Random.Range(-_finalSpread, _finalSpread) * (float)(count+1);     //hitscan single shot
         Vector3 newDir = dir + horScatter + verScatter;
-        bullet.Initialise(newDir, drift, _shotSpeed, _shotPower, _shotSize, _hitMask);
+        bullet.Initialise(newDir, drift, _shotSpeed, _shotPower, _shotSize, _color, _hitMask);
     }
 
 

@@ -8,6 +8,7 @@ public class Pickup : MonoBehaviour
     [SerializeField] private GameObject model;
     [SerializeField] private ParticleSystem _PSysBirth;
     [SerializeField] private ParticleSystem _PSysDeath;
+    [SerializeField] private Light _lightTop;
     public GunType Gun { get; private set; }
     public bool Collected { get; private set; }
 
@@ -17,6 +18,7 @@ public class Pickup : MonoBehaviour
     {
         int i = Random.Range(1, gunType.Length);
         Gun = gunType[i];
+        _lightTop.color = Gun.Colour;
         model.SetActive(false);
     }
 
@@ -27,8 +29,15 @@ public class Pickup : MonoBehaviour
 
         if (!_PSysBirth.isPlaying)
         {
-            model.SetActive(true);
+            StartLife();
         }
+    }
+
+    private void StartLife()
+    {
+        model.SetActive(true);
+        model.GetComponent<Animator>().SetTrigger("Create");
+        
     }
 
     public IEnumerator EndOfLife()

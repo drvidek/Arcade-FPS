@@ -11,4 +11,5 @@ public class GunType : ScriptableObject
     public int Count = 1;
     public float Delay = 0.3f;
     public float Spread = 0.001f;
+    public Color Colour;
 }
