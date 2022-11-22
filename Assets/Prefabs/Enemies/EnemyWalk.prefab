@@ -59,17 +59,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caedc7f68298211409611e21545b8947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 0
-  _health: 0
-  _hitEffectMesh: {fileID: 0}
-  _hitEffectMat: {fileID: 0}
-  _homeMat: {fileID: 0}
-  _healthbar: {fileID: 0}
-  _agentCollider: {fileID: 0}
-  filter: {fileID: 11400000, guid: 31cd321113055d54dbf2b7fbb1db3cc9, type: 2}
-  hasSpawned: 0
-  _hitSound: {fileID: 0}
-  lastHit: {fileID: 0}
   _followTarget: {fileID: 0}
   _offsets:
   - {x: 3, y: 0, z: 0}
@@ -166,7 +155,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6ff2f63040bf3b6409779a71928214d6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

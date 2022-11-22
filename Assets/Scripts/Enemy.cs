@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : FlockAgent
+public class Enemy : MonoBehaviour //FlockAgent
 {
     [SerializeField] private Transform _followTarget;
     [SerializeField] private Vector3[] _offsets;
@@ -10,16 +10,16 @@ public class Enemy : FlockAgent
     private float _curveDelta;
     [SerializeField] private float _moveSpd = 5f, _turnSpd = 1f, _offsetSpd = 1f, _offsetXMod = 1f, _offsetYMod = 1f, _offsetZMod = 1f;
     [SerializeField] private bool _mapSpeedToCurve, _mapTurnToCurve;
-    private Vector3 _dir;//, _anchor;
+    private Vector3 _dir, _anchor;
 
 
-    new void Start()
+     void Start()
     {
-        base.Start();
-        //_anchor = transform.position;
+        //base.Start();
+        _anchor = transform.position;
         _curve.postWrapMode = WrapMode.PingPong;
         _curve.preWrapMode = WrapMode.PingPong;
-        //_followTarget = GameObject.Find("Player").transform;
+        _followTarget = GameObject.Find("Player").transform;
         transform.forward = MathExt.FlattenVector3(MathExt.Direction(transform.position, _followTarget.position));
     }
 
@@ -27,13 +27,13 @@ public class Enemy : FlockAgent
     {
         _curveDelta += Time.deltaTime * _offsetSpd;
 
-        //Vector3 newDir = MathExt.Direction(transform.position, _followTarget.position);
-        //newDir = MathExt.FlattenVector3(newDir);
-        //float steering = _turnSpd * (_mapTurnToCurve ? CurveDeltaNormalised() : 1f);
-        //_dir = Vector3.MoveTowards(_dir, newDir, steering*Time.deltaTime);
-        //transform.forward = _dir;
+        Vector3 newDir = MathExt.Direction(transform.position, _followTarget.position);
+        newDir = MathExt.FlattenVector3(newDir);
+        float steering = _turnSpd * (_mapTurnToCurve ? CurveDeltaNormalised() : 1f);
+        _dir = Vector3.MoveTowards(_dir, newDir, steering*Time.deltaTime);
+        transform.forward = _dir;
         float spd = _moveSpd * (_mapSpeedToCurve ? CurveDeltaNormalised() : 1f);
-        //_anchor += _dir * spd * Time.deltaTime;
+        _anchor += _dir * spd * Time.deltaTime;
         transform.position = _anchor + CalculateOffset();
     }
 

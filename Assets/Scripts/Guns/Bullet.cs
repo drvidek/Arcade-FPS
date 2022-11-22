@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
         transform.LookAt(transform.position + direction);
         _radius = GetComponent<SphereCollider>().radius * scale;
         _hitLayer = mask;
-        _model.GetComponent<MeshRenderer>().material.color = color;
+        _model.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", color);
         var psys = _PSysTrail;
         var psysmain = psys.main;
         psysmain.startColor = color;
