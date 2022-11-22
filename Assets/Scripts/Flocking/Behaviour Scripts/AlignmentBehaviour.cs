@@ -5,14 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Flock/Behaviour/Alignment")]
 public class AlignmentBehaviour : FilteredFlockBehaviour
 {
-    public override Vector2 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
+    public override Vector3 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
         if (context.Count == 0)
         {
             return agent.transform.up;
         }
 
-        Vector2 alignmentMove = Vector2.zero;
+        Vector3 alignmentMove = Vector3.zero;
         int count = 0;
 
         List<Transform> filteredContext = (filter == null) ? context : filter.Filter(agent, context);
@@ -21,7 +21,7 @@ public class AlignmentBehaviour : FilteredFlockBehaviour
         foreach (Transform item in filteredContext)
         {
             FlockAgent _agent = item.GetComponent<FlockAgent>();
-            alignmentMove += (Vector2)item.transform.up;
+            alignmentMove += (Vector3)item.transform.up;
             count++;
         }
 

@@ -16,6 +16,6 @@ MonoBehaviour:
   Speed: 65
   Size: 1
   Count: 1
-  Delay: 0.3
+  Delay: 0.35
   Spread: 0.01
   Colour: {r: 0.44705886, g: 1, b: 0.94117653, a: 1}

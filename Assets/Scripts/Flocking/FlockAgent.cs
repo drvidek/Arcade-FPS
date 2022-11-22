@@ -19,13 +19,16 @@ public class FlockAgent : CombatAgent
     [SerializeField] private AudioSource _hitSound;
 
     public CombatAgent lastHit;
+    protected Vector3 _anchor;
 
     public void Initialise(Flock flock)
     {
         base.Start();
+        TryGetComponent<Collider>(out _agentCollider);
         _agentFlock = flock;
         _agentCollider.enabled = true;
         hasSpawned = false;
+        _anchor = transform.position;
     }
 
     public void Move(Vector3 velocity)
@@ -39,7 +42,7 @@ public class FlockAgent : CombatAgent
             _pointDirAverage += item;
         }
         _pointDirAverage /= _pointDir.Count;
-        transform.up = _pointDirAverage.normalized; //rotate the AI
+        transform.forward = _pointDirAverage.normalized; //rotate the AI
         transform.position += (Vector3)velocity * Time.deltaTime; //move the AI
      
     }

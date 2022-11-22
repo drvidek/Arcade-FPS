@@ -9,7 +9,7 @@ public class WanderBehavior : FilteredFlockBehaviour
     private WaypointPath _path;
     [SerializeField] int _currentWaypoint;
 
-    public override Vector2 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
+    public override Vector3 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
         if (_path == null)
         {
@@ -19,9 +19,9 @@ public class WanderBehavior : FilteredFlockBehaviour
         return FollowPath(agent);
     }
 
-    private Vector2 FollowPath(FlockAgent agent)
+    private Vector3 FollowPath(FlockAgent agent)
     {
-        if (_path == null) return Vector2.zero;
+        if (_path == null) return Vector3.zero;
 
         Vector3 waypointDir;
 
@@ -31,14 +31,14 @@ public class WanderBehavior : FilteredFlockBehaviour
             if (_currentWaypoint >= _path.waypoints.Count)
                 _currentWaypoint = 0;
 
-            return Vector2.zero;
+            return Vector3.zero;
         }
-        return (Vector2)waypointDir.normalized;
+        return (Vector3)waypointDir.normalized;
     }
 
     private bool WaypointInRadius(FlockAgent agent, int currentWaypoint, out Vector3 waypointDir)
     {
-        waypointDir = (Vector2)(_path.waypoints[_currentWaypoint].position - agent.transform.position);
+        waypointDir = (Vector3)(_path.waypoints[_currentWaypoint].position - agent.transform.position);
 
         return (waypointDir.magnitude < _path.radius);
     }

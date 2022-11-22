@@ -42,7 +42,10 @@ public class PlayerMovement : CombatAgent
     {
         Vector3 moveDir = transform.TransformDirection(inputDir); //Vector3.Normalize(_camProxy.right * inputDir.x + Vector3.Normalize(FlattenVector3(_camProxy.forward)) * inputDir.y);
         moveDir *= _moveSpd * Time.deltaTime;
-        transform.position += moveDir;
+        Vector3 newPosition = transform.position + moveDir;
+        newPosition.x = Mathf.Clamp(newPosition.x, -49,49);
+        newPosition.z = Mathf.Clamp(newPosition.z, -49,49);
+        transform.position = newPosition;
     }
 
     public Vector3 GetDrift()

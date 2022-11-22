@@ -13,15 +13,15 @@ public class CompositeBehaviour : FlockBehaviour
     }
 
     public BehaviourGroup[] behaviours;
-    public override Vector2 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
+    public override Vector3 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
-        Vector2 move = Vector2.zero;
+        Vector3 move = Vector3.zero;
 
         foreach (BehaviourGroup behave in behaviours)
         {
-            Vector2 partialMove = behave.behaviour.CalculateMove(agent, context, flock) * behave.weights;
+            Vector3 partialMove = behave.behaviour.CalculateMove(agent, context, flock) * behave.weights;
 
-            if (partialMove != Vector2.zero)
+            if (partialMove != Vector3.zero)
             {
                 if (partialMove.sqrMagnitude > behave.weights * behave.weights)
                 {

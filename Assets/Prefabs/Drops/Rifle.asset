@@ -18,4 +18,4 @@ MonoBehaviour:
   Count: 1
   Delay: 0.2
   Spread: 0.015
-  Colour: {r: 0.0023498535, g: 0, b: 1, a: 1}
+  Colour: {r: 0, g: 0.19907331, b: 1, a: 1}

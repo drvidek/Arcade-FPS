@@ -9,6 +9,7 @@ public class Pickup : MonoBehaviour
     [SerializeField] private ParticleSystem _PSysBirth;
     [SerializeField] private ParticleSystem _PSysDeath;
     [SerializeField] private Light _lightTop;
+    [SerializeField] private MeshRenderer _fresnel;
     public GunType Gun { get; private set; }
     public bool Collected { get; private set; }
 
@@ -16,9 +17,10 @@ public class Pickup : MonoBehaviour
 
     private void Start()
     {
-        int i = Random.Range(1, gunType.Length);
+        int i = Random.Range(0, gunType.Length);
         Gun = gunType[i];
         _lightTop.color = Gun.Colour;
+        _fresnel.material.SetColor("_Color", Gun.Colour);
         model.SetActive(false);
     }
 

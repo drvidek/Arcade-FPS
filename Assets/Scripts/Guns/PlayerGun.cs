@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerGun : MasterGun
 {
     [Header("Player Components")]
-    [SerializeField] private Camera _cam;
+    [SerializeField]
+    private Camera _cam;
+
     [SerializeField] private GunType _baseGun;
     [SerializeField] private GunType _equipGun;
-
-
-    [Header("UI")]
-    [SerializeField] private Image _chargeBar;
-    Color _chargeBarColDefault;
+    [SerializeField] private float _timerMax = 10f;
+    private float _timer;
+    private bool _powerupActive;
+    [Header("UI")] [SerializeField] private Image _chargeBar;
 
     private void OnValidate()
     {
@@ -34,6 +36,7 @@ public class PlayerGun : MasterGun
         _owner = GetComponent<PlayerMovement>();
         ApplyPropertiesFrom(_baseGun);
         _shotDelay = _shotDelayMax;
+        _chargeBar.enabled = false;
     }
 
     private void ApplyPropertiesFrom(GunType newGun)
@@ -74,15 +77,8 @@ public class PlayerGun : MasterGun
     // Update is called once per frame
     void Update()
     {
-        //UI update
-        if (_shotDelay <= 0)
-        {
-            Shoot();
-            _shotDelay = _shotDelayMax;
-            return;
-        }
-        _shotDelay = Mathf.MoveTowards(_shotDelay, 0, Time.deltaTime);
-        //_chargeBar.fillAmount = 1f - (_shotDelay / _shotDelayMax);
+        ManageShotDelay();
+        ManagePowerupTimer();
     }
 
     protected override void Shoot()
@@ -91,22 +87,64 @@ public class PlayerGun : MasterGun
         CreateBullets(_shotCount, MyPlayer.GetDrift(), ray);
     }
 
+    private void ManageShotDelay()
+    {
+        if (_shotDelay <= 0)
+        {
+            Shoot();
+            _shotDelay = _shotDelayMax;
+            return;
+        }
+
+        _shotDelay = Mathf.MoveTowards(_shotDelay, 0, Time.deltaTime);
+    }
+
+    private void ManagePowerupTimer()
+    {
+        if (!_powerupActive)
+            return;
+
+        if (_timer <= 0)
+        {
+            ApplyPropertiesFrom(_baseGun);
+            _powerupActive = false;
+            _chargeBar.enabled = false;
+
+            return;
+        }
+        _timer = Mathf.MoveTowards(_timer, 0, Time.deltaTime);
+        _chargeBar.material.SetFloat("_Health", _timer / _timerMax);
+    }
+
+    private void ResetTimer()
+    {
+        _timer = _timerMax;
+    }
+
+    private void SetBarColor(Color color)
+    {
+        _chargeBar.material.SetColor("_FullHealthColor", color);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-            Debug.Log("Found trigger");
+        Debug.Log("Found trigger");
 
         if (other.TryGetComponent<Pickup>(out Pickup p))
         {
-            Debug.Log("Found pickup");
             if (p.Collected)
             {
-            Debug.Log("Pickup Collected");
-
                 return;
             }
+            GunType gun = p.Gun;
+            ApplyPropertiesFrom(gun);
 
-            ApplyPropertiesFrom(p.Gun);
+            SetBarColor(gun.Colour);
+
+            ResetTimer();
+
+            _powerupActive = true;
+            _chargeBar.enabled = true;
             p.StartCoroutine("EndOfLife");
         }
     }

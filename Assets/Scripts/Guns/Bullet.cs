@@ -33,7 +33,6 @@ public class Bullet : MonoBehaviour
         var psys = _PSysTrail;
         var psysmain = psys.main;
         psysmain.startColor = color;
-        _PSysHit = psys;
     }
 
     // Update is called once per frame
@@ -42,7 +41,7 @@ public class Bullet : MonoBehaviour
         if (_dying)
             return;
 
-        if (CheckHit())
+        if (CheckHit(out RaycastHit hit))
         {
             Debug.Log("Hit");
             _PSysHit.Play();
@@ -58,10 +57,9 @@ public class Bullet : MonoBehaviour
     }
 
 
-    bool CheckHit()
+    bool CheckHit(out RaycastHit hit)
     {
         Ray ray = new Ray(transform.position, _dir);
-        RaycastHit hit;
         if (Physics.SphereCast(ray, _radius, out hit, _moveSpd * Time.deltaTime, _hitLayer))
         {
             return true;
