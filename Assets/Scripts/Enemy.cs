@@ -11,12 +11,19 @@ public class Enemy : MonoBehaviour //FlockAgent
     [SerializeField] private float _moveSpd = 5f, _turnSpd = 1f, _offsetSpd = 1f, _offsetXMod = 1f, _offsetYMod = 1f, _offsetZMod = 1f;
     [SerializeField] private bool _mapSpeedToCurve, _mapTurnToCurve;
     private Vector3 _dir, _anchor;
+[SerializeField] private int _healthMax = 10;
+private int _healthCurrent;
 
+private Material _mat;
+private float _dissolve;
+
+private bool _dying;
 
      void Start()
     {
         //base.Start();
         _anchor = transform.position;
+         _mat = GetComponentInChildren<MeshRenderer>().material;
         _curve.postWrapMode = WrapMode.PingPong;
         _curve.preWrapMode = WrapMode.PingPong;
         _followTarget = GameObject.Find("Player").transform;
@@ -25,6 +32,8 @@ public class Enemy : MonoBehaviour //FlockAgent
 
     private void Update()
     {
+        if (_dying)
+return;
         _curveDelta += Time.deltaTime * _offsetSpd;
 
         Vector3 newDir = MathExt.Direction(transform.position, _followTarget.position);
@@ -58,5 +67,25 @@ public class Enemy : MonoBehaviour //FlockAgent
             offset *= mag;
         return offset;
     }
+    
+    public void TakeDamage(int dmg)
+{
+_healthCurrent -= dmg;
+if (_healthCurrent <= 0)
+StartCoroutine("EndOfLife");
+}
+
+IEnumerator EndOfLife()
+{
+_dying = true;
+GetComponent<Collider>().enabled = false;
+whie (_dissolve < 1)
+{
+_dissolve += Time.deltaTime;
+_mat.SetFloat("_DissolveAmount",_dissolve);
+yield return null;
+}
+Destroy(gameObject);
+}
 
 }
