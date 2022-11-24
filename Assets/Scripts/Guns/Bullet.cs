@@ -12,13 +12,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private ParticleSystem _PSysHit;
     [SerializeField] private ParticleSystem _PSysTrail;
     private float _killTimer;
+    private float _killTimerMax = 5f;
     private bool _dying;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Destroy(gameObject, 5f);
-    }
 
     public void Initialise(Vector3 direction, Vector3 drift, float speed, float power, float scale, Color color, LayerMask mask)
     {
@@ -44,6 +39,10 @@ public class Bullet : MonoBehaviour
         if (CheckHit(out RaycastHit hit))
         {
             Debug.Log("Hit");
+            if (hit.gameObject.TryGetComponent<Enemy>(out Enemy e))
+			{
+				e.TakeDamage(_power);
+			}
             _PSysHit.Play();
             StartCoroutine("EndOfLife");
             return;
