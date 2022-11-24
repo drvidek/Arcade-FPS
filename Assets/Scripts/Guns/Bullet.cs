@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
         if (CheckHit(out RaycastHit hit))
         {
             Debug.Log("Hit");
-            if (hit.gameObject.TryGetComponent<Enemy>(out Enemy e))
+            if (hit.transform.TryGetComponent<Enemy>(out Enemy e))
 			{
 				e.TakeDamage(_power);
 			}

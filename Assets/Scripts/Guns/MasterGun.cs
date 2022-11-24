@@ -22,6 +22,7 @@ public abstract class MasterGun : MonoBehaviour
     [SerializeField] protected float _shotSpread = 0.01f;
     [SerializeField] protected LayerMask _hitMask;
     [SerializeField] protected Color _color;
+    public Color Colour { get => _color; }
 
 
     public PlayerMovement MyPlayer { get { return _owner as PlayerMovement; } }

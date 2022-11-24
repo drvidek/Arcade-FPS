@@ -5,9 +5,9 @@ using UnityEngine.Pool;
 
 public class Flock : MonoBehaviour
 {
-    public Enemy agentPrefab;
-    public List<Enemy> agents;// = new List<FlockAgent>();
-    public ObjectPool<Enemy> agentPool;
+    public FlockAgent agentPrefab;
+    public List<FlockAgent> agents;// = new List<FlockAgent>();
+    public ObjectPool<FlockAgent> agentPool;
     public FlockBehaviour behavior;
 
     public int spawnCountInit;
@@ -52,9 +52,9 @@ public class Flock : MonoBehaviour
                 players[i] = playersFound[i].transform;
             }
         }
-        agentPool = new ObjectPool<Enemy>(() =>
+        agentPool = new ObjectPool<FlockAgent>(() =>
             {
-                return Instantiate(agentPrefab, agentPoolLoc.position, Quaternion.Euler(Vector3.forward * Random.Range(0, 360f)), transform).GetComponent<Enemy>();
+                return Instantiate(agentPrefab, agentPoolLoc.position, Quaternion.Euler(Vector3.forward * Random.Range(0, 360f)), transform).GetComponent<FlockAgent>();
             }, newAgent =>
             {
                 newAgent.gameObject.SetActive(true);
@@ -86,7 +86,7 @@ public class Flock : MonoBehaviour
         Transform _spawnpoint = spawnPoints[index];
         for (int i = 0; i < count; i++)
         {
-            Enemy newAgent = agentPool.Get();
+            FlockAgent newAgent = agentPool.Get();
             newAgent.transform.position = _spawnpoint.position + (Vector3)(Random.insideUnitCircle * spawnCountCurrent * agentDensity);
             newAgent.AgentCollider.enabled = true;
         }
@@ -114,7 +114,7 @@ public class Flock : MonoBehaviour
                 
             }
             else
-                foreach (Enemy agent in agents)
+                foreach (FlockAgent agent in agents)
                 {
                     List<Transform> context = GetNearbyObjects(agent);
 
@@ -132,7 +132,7 @@ public class Flock : MonoBehaviour
     }
 
 
-    private List<Transform> GetNearbyObjects(Enemy agent)
+    private List<Transform> GetNearbyObjects(FlockAgent agent)
     {
         List<Transform> context = new List<Transform>();
         Collider2D[] contextColliders = Physics2D.OverlapCircleAll(agent.transform.position, neighbourRadius * agent.transform.lossyScale.x);
@@ -149,7 +149,7 @@ public class Flock : MonoBehaviour
 
     public void ClearAgents()
     {
-        foreach (Enemy agent in agents)
+        foreach (FlockAgent agent in agents)
         {
             agentPool.Release(agent);
         }

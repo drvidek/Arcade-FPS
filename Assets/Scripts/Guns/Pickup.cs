@@ -38,7 +38,7 @@ public class Pickup : MonoBehaviour
     private void StartLife()
     {
         model.SetActive(true);
-        model.GetComponent<Animator>().SetTrigger("Create");
+        model.GetComponentInChildren<Animator>().SetTrigger("Create");
         
     }
 

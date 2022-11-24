@@ -50,6 +50,7 @@ Shader "Custom/Dissolve"
 
         void surf(Input IN, inout SurfaceOutputStandard o)
         {
+            float2 uv = tex2D(_DissolveTexture, IN.uv_MainTex);
             half dissolveValue = tex2D(_DissolveTexture, IN.uv_MainTex).r;
             clip(dissolveValue - _DissolveAmount);
 
