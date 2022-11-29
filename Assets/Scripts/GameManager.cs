@@ -5,13 +5,14 @@ using UnityEngine.SceneManagement;
 
 public enum GameState
 {
+    Pre,
     Play,
     Post
 }
 
 public class GameManager : MonoBehaviour
 {
-    public static GameState State { get; private set; } = GameState.Play;
+    public static GameState State { get; private set; } = GameState.Pre;
     public static bool IsPlaying { get => State == GameState.Play; }
     public static ScoreKeeper scoreKeeper;
 
@@ -27,22 +28,36 @@ public class GameManager : MonoBehaviour
     {
         switch (State)
         {
+            case GameState.Pre:
+                StartCoroutine("Pre");
+                break;
             case GameState.Play:
                 StartCoroutine("Play");
                 break;
             case GameState.Post:
                 StartCoroutine("Post");
-
                 break;
             default:
                 break;
         }
     }
 
+    IEnumerator Pre()
+    {
+        while (State == GameState.Pre)
+        {
+            yield return null;
+        }
+        NextState();
+    }
+
     IEnumerator Play()
     {
-        _uiGroup[0].SetActive(true);
-        _uiGroup[1].SetActive(false);
+        if (_uiGroup.Length > 0)
+        {
+            _uiGroup[0].SetActive(true);
+            _uiGroup[1].SetActive(false);
+        }
         while (State == GameState.Play)
         {
             yield return null;
@@ -73,12 +88,24 @@ public class GameManager : MonoBehaviour
     {
         State = GameState.Play;
         ScoreKeeper.Reset();
-        SceneManager.LoadScene(0);
+    }
+
+    public void ResetState()
+    {
+        State = GameState.Pre;
     }
 
     public static void EndRound()
     {
         State = GameState.Post;
         scoreKeeper.UpdateDisplay();
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }

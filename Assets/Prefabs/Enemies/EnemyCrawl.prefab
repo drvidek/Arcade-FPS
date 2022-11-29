@@ -87,7 +87,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _yAnchorOffset: 0
-  _moveSpd: 8
+  _moveSpd: 12
   _turnSpd: 1
   _offsetSpd: 1
   _offsetXMod: 1
@@ -95,7 +95,10 @@ MonoBehaviour:
   _offsetZMod: 1
   _mapSpeedToCurve: 1
   _mapTurnToCurve: 1
+  _dir: {x: 0, y: 0, z: 0}
+  _anchor: {x: 0, y: 0, z: 0}
   _pickupPrefab: {fileID: 4803562438277185297, guid: e680ccd8195ae4b46a41b78acc023ef0, type: 3}
+  _spawnPoints: []
 --- !u!1 &3503012454410710339
 GameObject:
   m_ObjectHideFlags: 0
