@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3503012453402901233}
-  - component: {fileID: 3503012453402901232}
   - component: {fileID: 3503012453402901247}
+  - component: {fileID: 3038404448342603053}
   m_Layer: 6
   m_Name: EnemyFly
   m_TagString: Target
@@ -34,19 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &3503012453402901232
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3503012453402901246}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3503012453402901247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +49,7 @@ MonoBehaviour:
   _healthMax: 10
   _followTarget: {fileID: 0}
   _offsets:
-  - {x: 2.5, y: 2.5, z: 0}
+  - {x: 4, y: 2.5, z: 0}
   _curve:
     serializedVersion: 2
     m_Curve:
@@ -97,6 +84,20 @@ MonoBehaviour:
   _mapSpeedToCurve: 0
   _mapTurnToCurve: 0
   _pickupPrefab: {fileID: 4803562438277185297, guid: e680ccd8195ae4b46a41b78acc023ef0, type: 3}
+--- !u!136 &3038404448342603053
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3503012453402901246}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2.5
+  m_Height: 8
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3503012454410710339
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ Transform:
   m_GameObject: {fileID: 3503012454410710339}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 0.3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3503012453402901233}
@@ -137,7 +138,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3503012454410710339}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -5076798556035486163, guid: ff6920c1d5126b948ba930b4ae7075f5, type: 3}
 --- !u!23 &3503012454410710341
 MeshRenderer:
   m_ObjectHideFlags: 0

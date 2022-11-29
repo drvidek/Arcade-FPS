@@ -12,9 +12,10 @@ public class Enemy : MonoBehaviour //FlockAgent
     [SerializeField] private float _yAnchorOffset;
     [SerializeField] private float _moveSpd = 5f, _turnSpd = 1f, _offsetSpd = 1f, _offsetXMod = 1f, _offsetYMod = 1f, _offsetZMod = 1f;
     [SerializeField] private bool _mapSpeedToCurve, _mapTurnToCurve;
-    private Vector3 _dir, _anchor;
+    [SerializeField] private Vector3 _dir, _anchor;
     private float _healthCurrent;
     [SerializeField] private GameObject _pickupPrefab;
+    [SerializeField] private Transform[] _spawnPoints;
 
     private Material _mat;
     private float _dissolve = 0;
@@ -61,13 +62,17 @@ public class Enemy : MonoBehaviour //FlockAgent
 
     private void Update()
     {
-        if (_dying)
+        if (_dying || !GameManager.IsPlaying)
             return;
+
         _curveDelta += Time.deltaTime * _offsetSpd;
 
         UpdateFollowPlayer();
-        _anchor.y = _yAnchorOffset;
-        CalculateOffsetPositionFrom(_anchor);
+        _anchor.y = Mathf.MoveTowards(_anchor.y, _yAnchorOffset, 2* Time.deltaTime);
+        if (_anchor.y == _yAnchorOffset)
+            CalculateOffsetPositionFrom(_anchor);
+        else
+            transform.position = _anchor;
     }
 
     private void UpdateFollowPlayer()
@@ -101,6 +106,7 @@ public class Enemy : MonoBehaviour //FlockAgent
     {
         ResetHealth();
         ResetModel();
+        _curveDelta = 0;
         _dying = false;
     }
 
@@ -119,6 +125,7 @@ public class Enemy : MonoBehaviour //FlockAgent
     IEnumerator EndOfLife()
     {
         _dying = true;
+        ScoreKeeper.IncreaseScore(1);
         GetComponent<Collider>().enabled = false;
         _mat.SetColor("_DissolveOutline", GameObject.Find("Player").GetComponent<PlayerGun>().Colour);
         while (_dissolve < 1)
@@ -129,10 +136,11 @@ public class Enemy : MonoBehaviour //FlockAgent
         }
         if (MathExt.Roll(4))
         {
-            Instantiate(_pickupPrefab, _anchor, Quaternion.identity);
+            Instantiate(_pickupPrefab, MathExt.FlattenVector3(_anchor), Quaternion.identity);
         }
-        float arenaWidth = 100;
-        _anchor = new Vector3(Random.Range(-arenaWidth/2, arenaWidth/2), 0, Random.Range(-arenaWidth/2, arenaWidth/2));
+
+        int spawn = Random.Range(0, 4);
+        _anchor = _spawnPoints[spawn].position;
         Reset();
     }
 

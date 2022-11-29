@@ -11,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Art/Shaders/DepthPostprocessing.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -80,6 +80,7 @@
       <workItem from="1669026232900" duration="847000" />
       <workItem from="1669279507978" duration="24000" />
       <workItem from="1669279548501" duration="835000" />
+      <workItem from="1669595936706" duration="9815000" />
     </task>
     <servers />
   </component>

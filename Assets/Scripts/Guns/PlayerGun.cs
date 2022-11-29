@@ -77,6 +77,9 @@ public class PlayerGun : MasterGun
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.IsPlaying)
+            return;
+
         ManageShotDelay();
         ManagePowerupTimer();
     }

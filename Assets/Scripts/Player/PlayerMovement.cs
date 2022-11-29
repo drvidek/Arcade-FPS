@@ -26,6 +26,9 @@ public class PlayerMovement : CombatAgent
 
     private void Update()
     {
+        if (!GameManager.IsPlaying)
+            return;
+
         Vector3 inputDir = GetInputDir();
         Move(inputDir);
     }
@@ -63,5 +66,11 @@ public class PlayerMovement : CombatAgent
         throw new System.NotImplementedException();
     }
 
-
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.transform.TryGetComponent<Enemy>(out Enemy e))
+        {
+            GameManager.EndRound();
+        }
+    }
 }
