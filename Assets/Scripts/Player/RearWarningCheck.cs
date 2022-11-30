@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class RearWarningCheck : MonoBehaviour
 {
-    [SerializeField] private Transform _checkPos;
-    [SerializeField] private float _radius = 0.2f;
     [SerializeField] private GameObject _warning;
 
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        _warning.SetActive(!Physics.CheckSphere(_checkPos.position, _radius));
+        if (other.TryGetComponent<Enemy>(out Enemy e))
+        {
+            _warning.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy e))
+        {
+            _warning.SetActive(false);
+        }
     }
 }
