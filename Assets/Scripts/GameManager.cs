@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     {
         while (State == GameState.Pre)
         {
+            if (Input.GetKeyDown(KeyCode.Tab))
+                State = GameState.Play;
             yield return null;
         }
         NextState();

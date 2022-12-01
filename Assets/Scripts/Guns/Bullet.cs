@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private GameObject _model;
     [SerializeField] private ParticleSystem _PSysHit;
     [SerializeField] private ParticleSystem _PSysTrail;
+    [SerializeField] private AudioSource _sfxDeath;
     private float _killTimer;
     private float _killTimerMax = 5f;
     private bool _dying;
@@ -42,14 +43,16 @@ public class Bullet : MonoBehaviour
             if (hit.transform.TryGetComponent<Enemy>(out Enemy e))
 			{
 				e.TakeDamage(_power);
-			}
+                _sfxDeath.Play();
+
+            }
             _PSysHit.Play();
             StartCoroutine("EndOfLife");
             return;
         }
 
         _killTimer += Time.deltaTime;
-        if (_killTimer >= 5f)
+        if (_killTimer >= _killTimerMax)
             StartCoroutine("EndOfLife");
 
         transform.position += _dir * _moveSpd * Time.deltaTime;

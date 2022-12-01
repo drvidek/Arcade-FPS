@@ -7,7 +7,11 @@ public class PlayerMovement : CombatAgent
     [Header("Movement")]
     [SerializeField] private float _moveSpd;
     [SerializeField] PlayerGun _gun;
-
+    [SerializeField] AudioSource[] _sfxWalk;
+    [SerializeField] float _sfxWalkDelayMax = 0.5f;
+    [SerializeField] AudioSource _sfxDeath;
+    float _sfxWalkDelay;
+    int _sfxWalkIndex;
 
     void OnValidate()
     {
@@ -43,12 +47,31 @@ public class PlayerMovement : CombatAgent
 
     private void Move(Vector3 inputDir)
     {
-        Vector3 moveDir = transform.TransformDirection(inputDir); //Vector3.Normalize(_camProxy.right * inputDir.x + Vector3.Normalize(FlattenVector3(_camProxy.forward)) * inputDir.y);
+        Vector3 moveDir = transform.TransformDirection(inputDir);
         moveDir *= _moveSpd * Time.deltaTime;
         Vector3 newPosition = transform.position + moveDir;
         newPosition.x = Mathf.Clamp(newPosition.x, -49,49);
         newPosition.z = Mathf.Clamp(newPosition.z, -49,49);
         transform.position = newPosition;
+        if (inputDir.magnitude > 0)
+            PlaySFXWalk();
+        else
+            _sfxWalkDelay = 0;
+    }
+
+    private void PlaySFXWalk()
+    {
+        if (_sfxWalkDelay <= 0)
+        {
+            _sfxWalk[_sfxWalkIndex].Play();
+            _sfxWalkIndex++;
+            if (_sfxWalkIndex > 1)
+                _sfxWalkIndex = 0;
+            _sfxWalkDelay = _sfxWalkDelayMax;
+            return;
+        }
+
+        _sfxWalkDelay = Mathf.MoveTowards(_sfxWalkDelay, 0, Time.deltaTime);
     }
 
     public Vector3 GetDrift()
@@ -68,9 +91,13 @@ public class PlayerMovement : CombatAgent
 
     private void OnTriggerStay(Collider other)
     {
+        if (!GameManager.IsPlaying)
+            return;
+
         if (other.transform.TryGetComponent<Enemy>(out Enemy e))
         {
             GameManager.EndRound();
+            _sfxDeath.Play();
         }
     }
 }

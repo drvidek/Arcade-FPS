@@ -63,4 +63,26 @@ public class MathExt
     {
         return new Vector2(vector3.x, vector3.z);
     }
+
+    /// <summary>
+    /// If n falls below min or above max, it will wrap to the other value
+    /// </summary>
+    /// <param name="n"></param>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    /// <returns></returns>
+    public static int WrapIndex(int n, int min, int max)
+    {
+        if (n < min)
+        {
+            n = max;
+            return n;
+        }
+        if (n > max)
+        {
+            n = min;
+            return n;
+        }
+        return n;
+    }
 }

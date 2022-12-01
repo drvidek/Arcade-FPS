@@ -70,7 +70,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Health: 0
+    - _Health: 0.784093
     - _LerpThreshold: 8
     - _Metallic: 0
     - _Mode: 0
@@ -85,6 +85,6 @@ Material:
     - _BGColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FullHealthColor: {r: 0, g: 0.19907331, b: 1, a: 1}
+    - _FullHealthColor: {r: 1, g: 0, b: 0, a: 1}
     - _LowHealthColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_BuildTextureStacks: []

@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour //FlockAgent
     private float _healthCurrent;
     [SerializeField] private GameObject _pickupPrefab;
     [SerializeField] private Transform[] _spawnPoints;
+    [SerializeField] private AudioSource _sfxDeath;
+    static int _dropChance;
+    private int _dropChanceMax = 6;
 
     private Material _mat;
     private float _dissolve = 0;
@@ -44,11 +47,11 @@ public class Enemy : MonoBehaviour //FlockAgent
 
     void Start()
     {
-        //base.Start(); //need this for flocking behaviour
         _mat = GetComponentInChildren<MeshRenderer>().material;
         Reset();
         _curve.postWrapMode = WrapMode.PingPong;
         _curve.preWrapMode = WrapMode.PingPong;
+        _dropChance = _dropChanceMax;
         StartFollowPlayer();
     }
 
@@ -127,6 +130,7 @@ public class Enemy : MonoBehaviour //FlockAgent
         _dying = true;
         ScoreKeeper.IncreaseScore(1);
         GetComponent<Collider>().enabled = false;
+        _sfxDeath.Play();
         _mat.SetColor("_DissolveOutline", GameObject.Find("Player").GetComponent<PlayerGun>().Colour);
         while (_dissolve < 1)
         {
@@ -134,10 +138,13 @@ public class Enemy : MonoBehaviour //FlockAgent
             _mat.SetFloat("_DissolveAmount", _dissolve);
             yield return null;
         }
-        if (MathExt.Roll(4))
+        if (MathExt.Roll(_dropChance))
         {
             Instantiate(_pickupPrefab, MathExt.FlattenVector3(_anchor), Quaternion.identity);
+            _dropChance = _dropChanceMax;
         }
+        else
+            _dropChance--;
 
         int spawn = Random.Range(0, 4);
         _anchor = _spawnPoints[spawn].position;

@@ -10,6 +10,8 @@ public class Pickup : MonoBehaviour
     [SerializeField] private ParticleSystem _PSysDeath;
     [SerializeField] private Light _lightTop;
     [SerializeField] private MeshRenderer _fresnel;
+    [SerializeField] private AudioSource _sfxBirth;
+    [SerializeField] private AudioSource _sfxDeath;
     public GunType Gun { get; private set; }
     public bool Collected { get; private set; }
 
@@ -22,6 +24,7 @@ public class Pickup : MonoBehaviour
         _lightTop.color = Gun.Colour;
         _fresnel.material.SetColor("_Color", Gun.Colour);
         model.SetActive(false);
+        _sfxBirth.Play();
     }
 
     private void Update()
@@ -47,6 +50,7 @@ public class Pickup : MonoBehaviour
         Collected = true;
         model.SetActive(false);
         _PSysDeath.Play();
+        _sfxDeath.Play();
         while (_PSysDeath.isPlaying)
             yield return null;
         Destroy(gameObject);
